@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>my_ct_project</name>
+  <version>0.0.0</version>
+  <description>The my_ct_project package</description>
+  <maintainer email="prabin@todo.todo">prabin</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>ct_core</build_depend>
+  <!-- <build_depend>ct_models</build_depend> -->
+  <build_depend>ct_optcon</build_depend>
+  <!-- <build_depend>ct_rbd</build_depend> -->
+  <build_depend>roscpp</build_depend>
+  <build_depend>roslib</build_depend>
+
+  <build_export_depend>ct_core</build_export_depend>
+  <!-- <build_export_depend>ct_models</build_export_depend> -->
+  <build_export_depend>ct_optcon</build_export_depend>
+  <!-- <build_export_depend>ct_rbd</build_export_depend> -->
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>roslib</build_export_depend>
+  
+  <exec_depend>ct_core</exec_depend>
+  <!-- <exec_depend>ct_models</exec_depend> -->
+  <exec_depend>ct_optcon</exec_depend>
+  <!-- <exec_depend>ct_rbd</exec_depend> -->
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>roslib</exec_depend>
+
+  <export>
+
+  </export>
+</package>

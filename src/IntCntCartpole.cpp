@@ -3,6 +3,7 @@
 #include <ros/package.h>
 #include "my_ct_project/Cartpole.h"
 #include "my_ct_project/CustomController.h"
+#include "CartpoleSystemLinearized.h"
 
 int main(int argc, char** argv)
 {
@@ -11,30 +12,24 @@ int main(int argc, char** argv)
     const size_t control_dim = cartpole::CartpoleSystem::CONTROL_DIM;
 
     // typedefs for the auto-differentiable codegen system
-    typedef ct::core::ADCodegenLinearizer<state_dim, control_dim>::ADCGScalar Scalar;
-    typedef typename Scalar::value_type AD_ValueType;
-    typedef cartpole::tpl::CartpoleSystem<Scalar> CartpoleSystemADCG;
+    typedef ct::core::generated::CartpoleSystemLinearized CartpoleSystemLinearized;
 
-    // create nonlinear systems
+    // create nonlinear systems, must remain consistent with the paarameters used for CartpoleSystemLinearized codegen
     double m1 = 5;  // (kg) Cart mass
     double m2 = 1;  // (kg) pole mass
     double l = 2;   // (m) pendulum (pole) length
-    std::shared_ptr<CartpoleSystemADCG> cartpoleSystemADCG(new CartpoleSystemADCG(AD_ValueType(m1), AD_ValueType(m2), AD_ValueType(l)));
 
-    // create a linearizer that uses auto-diff codegen
-    ct::core::ADCodegenLinearizer<state_dim, control_dim> adcgLinearizer(cartpoleSystemADCG);
-    adcgLinearizer.compileJIT();
-
+    std::shared_ptr<CartpoleSystemLinearized> cartpoleLinearized(new CartpoleSystemLinearized());
     // create state, control and time variables
-    ct::core::StateVector<state_dim> x;
+    CartpoleSystemLinearized::state_vector_t x;
     x << 0, M_PI, 0, 0;
-    ct::core::ControlVector<control_dim> u;
+    CartpoleSystemLinearized::control_vector_t u;
     u << 0;
     double t = 0;
 
     // use the auto differentiation linearzier
-    auto A = adcgLinearizer.getDerivativeState(x, u, t);
-    auto B = adcgLinearizer.getDerivativeControl(x, u, t);
+    auto A = cartpoleLinearized->getDerivativeState(x, u, t);
+    auto B = cartpoleLinearized->getDerivativeControl(x, u, t);
 
     // load the weighting matrices
     // ct::optcon::TermQuadratic<state_dim, control_dim> quadraticCost;

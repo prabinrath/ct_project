@@ -26,6 +26,7 @@ catkin_package(
 
 include_directories(
   include
+  generated
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -38,5 +39,5 @@ target_link_libraries(cnt_masspoint ct_core)
 add_executable(cartpole src/CartpoleDynamicsLinearization.cpp)
 target_link_libraries(cartpole ct_core ${catkin_LIBRARIES})
 
-add_executable(cnt_cartpole src/IntCntCartpole.cpp)
+add_executable(cnt_cartpole src/IntCntCartpole.cpp generated/CartpoleSystemLinearized.cpp)
 target_link_libraries(cnt_cartpole ct_optcon ${catkin_LIBRARIES})

@@ -40,21 +40,21 @@ int main(int argc, char** argv)
     // create a linearizer that uses auto-diff codegen
     ct::core::ADCodegenLinearizer<state_dim, control_dim> adcgLinearizer(cartpoleSystemADCG);
 
-    std::cout << "compiling..." << std::endl;
-    adcgLinearizer.compileJIT("ADCGCodegenLib");
-    std::cout << "... done!" << std::endl;
+    // std::cout << "compiling..." << std::endl;
+    // adcgLinearizer.compileJIT("ADCGCodegenLib");
+    // std::cout << "... done!" << std::endl;
 
-    try
-     {
-        std::cout << "generating code..." << std::endl;
-        // generate code for the Jacobians
-        adcgLinearizer.generateCode("CartpoleSystemLinearized", 
-            ros::package::getPath("my_ct_project")+"/generated");
-        std::cout << "... done!" << std::endl;
-     } catch (const std::runtime_error& e)
-     {
-         std::cout << "code generation failed: " << e.what() << std::endl;
-     }
+    // try
+    //  {
+    //     std::cout << "generating code..." << std::endl;
+    //     // generate code for the Jacobians
+    //     adcgLinearizer.generateCode("CartpoleSystemLinearized", 
+    //         ros::package::getPath("my_ct_project")+"/generated");
+    //     std::cout << "... done!" << std::endl;
+    //  } catch (const std::runtime_error& e)
+    //  {
+    //      std::cout << "code generation failed: " << e.what() << std::endl;
+    //  }
 
     // create state, control and time variables
     ct::core::StateVector<state_dim> x;
@@ -70,8 +70,8 @@ int main(int argc, char** argv)
     A_type A_ad = adLinearizer.getDerivativeState(x, u, t);
     B_type B_ad = adLinearizer.getDerivativeControl(x, u, t);
     // use the auto differentiation linearzier
-    A_type A_adcg = adcgLinearizer.getDerivativeState(x, u, t);
-    B_type B_adcg = adcgLinearizer.getDerivativeControl(x, u, t);
+    // A_type A_adcg = adcgLinearizer.getDerivativeState(x, u, t);
+    // B_type B_adcg = adcgLinearizer.getDerivativeControl(x, u, t);
 
     std::cout << "Numerical Differentiation A: \n";
     std::cout << A_system << std::endl;
@@ -81,10 +81,10 @@ int main(int argc, char** argv)
     std::cout << A_ad << std::endl;
     std::cout << "Automatic Differentiation B: \n";
     std::cout << B_ad << std::endl << std::endl;
-    std::cout << "Automatic Differentiation Codegen A: \n";
-    std::cout << A_adcg << std::endl;
-    std::cout << "Automatic Differentiation Codegen B: \n";
-    std::cout << B_adcg << std::endl << std::endl;
+    // std::cout << "Automatic Differentiation Codegen A: \n";
+    // std::cout << A_adcg << std::endl;
+    // std::cout << "Automatic Differentiation Codegen B: \n";
+    // std::cout << B_adcg << std::endl << std::endl;
     
     return 0;
 }
